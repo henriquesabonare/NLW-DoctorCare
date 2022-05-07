@@ -1,0 +1,705 @@
+/*==Geral===*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;/*configurações padrão da aplicação*/
+}
+:root {
+  --hue: 190;
+  --primary-color: hsl(var(--hue), 100%, 26%); /*primeira cor da aplicação */
+  --headline: hsl(210, 11%, 15%); /*cor da fonte principal*/
+  --paragraph: hsl(210, 9%, 31%); /* cor da fonte do paragrafo*/
+
+  --button-color: hsl(100, 100%, 100%); /*cor do conteúdo do botão white*/
+  --brand-light: hsl(calc(var(--hue) - 22), 23%, 89%);/*cor de fundo do cabeçalho*/
+  --box-model: hsl(39, 100%, 97%);/*cor de fundo da caixa */
+  --border-box: hsl(148, 23%, 89%);/* cor da borda da caixa */
+
+  --bglight: hsl(180, 14%, 97%);
+  --brand-green-hover: hsl(var(--hue), 100%, 14%);
+
+  --nav-height: 7.2rem; /*altura do menu de navegação*/
+  font-size: 62.5%; /* 1rem = 10px */
+}
+html{
+  scroll-behavior: smooth;
+}
+html, body{ /*padronizar a ocupação dos divisores da tela*/ 
+  width: 100%;
+  height: 100%;
+}
+body {
+  font-family: 'DM Sans'; /*fonte da aplicação */
+  font-size: 1.6rem;
+
+  text-align: center;
+
+  overflow: overlay; /*para não aparecer o scroll e abstrai-lo nos cálculos padrões da aplicação*/
+  background-color: var(--bglight);
+}
+.wrapper{ /*padronizar configurações do .wrapper div/nav e header*/
+  width: min(50rem, 100%); 
+  margin-inline: auto;
+  padding-inline: 2.4rem;
+}
+ul{
+  list-style: none; /*remover sublinhado dos links */
+}
+img{
+  max-width: 100%;
+}
+section{
+  padding-block: 10rem;
+}
+section header h4{
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 150%;
+  letter-spacing: 0.08rem;
+  color: var(--primary-color);
+
+  margin-bottom: 1.6rem;
+
+  text-transform: uppercase;
+}
+section header h2{
+  font-weight: 700;
+  font-size: 3.0rem;
+  line-height: 3.9rem;
+  color: var(--headline);
+}
+section header h1{
+  font-size: 3.0rem;
+  color: var(--headline);
+  line-height: 130%;
+
+  margin-bottom: 2.4rem;
+}
+section .content p{
+  color: var(--paragraph);
+  line-height: 150%;
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+.button{ 
+  background-color: var(--primary-color);
+
+  border: none;
+  border-radius: 4rem;
+
+  margin-inline: auto;
+  margin-bottom: 6rem;
+  padding:1.6rem 3.2rem;
+  width: fit-content;
+
+  text-transform: uppercase;/*caixa alta*/
+  text-decoration: none;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--button-color);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  gap: 1.8rem; /*espaçamento entre os elementos*/
+
+  transition: background 200ms;
+}
+.button:hover{
+  background-color: var(--brand-green-hover);
+}
+.social-medias{ /*estilização links*/
+  display: flex;
+  gap: 3.2rem;
+  align-items: center;
+  justify-content: center;
+}
+/*Custom colors*/
+#services .card circle{
+  fill: var(--brand-light);
+}
+#navigation .logo path[fill*="#00856F"],
+#backToTopButton circle {
+  fill:var(--primary-color)
+}
+#navigation .open-menu path,
+#contact li path {
+  stroke: var(--primary-color);
+}
+body.menu-expanded #navigation .logo path,
+#navigation.scroll .logo path,
+#navigation.open-menu .logo path[fill*="#00856F"],
+#navigation.scroll .open-menu path{/* coloração "DoctorCare" */
+  fill: white;
+  stroke: white;
+}
+
+/*=== Navigation====*/
+nav{ /*estilização menu de navegação*/
+  display: flex;
+
+  height: var(--nav-height); /*altura do menu*/
+
+  position: fixed;/*declara a posição do elemento*/
+  top: 0;/*somente liberados quando há position*/
+  width: 100vw;
+  z-index: 100;
+}
+nav .wrapper{ /*acrescenta algumas estilizações de alocação necessárias na div*/
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+nav.scroll{ /*estilização após ação do JS*/
+  background:var(--primary-color);
+  transform: transition (0) ;
+  transition: 300ms;
+  
+}
+nav .button{
+  outline: 1px solid var(--button-color);
+}
+nav .button:hover{
+  transition: 400ms;
+  filter: 1.2;
+  background-color: var(--primary-color);
+  color: var(--button-color);
+}
+nav.scroll .logo path{/* coloração "DoctorCare" */
+  fill: white;
+  
+}
+
+nav button,
+nav ul li{ /*configuração dos botões*/
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+nav .menu,
+nav .close-menu{
+  position: fixed;
+}
+
+/*===Menu-Expanded===*/
+body.menu-expanded {/*esconder scroll*/
+  overflow: hidden;
+  
+}
+body.menu-expanded > :not(nav) {
+  visibility: hidden;
+}
+.menu,
+.close-menu, 
+body.menu-expanded .open-menu {/*esconder caracteres menu*/
+  opacity: 0;
+  visibility: hidden;
+} 
+
+.menu{
+  position: fixed;
+  transform: translateY(100%);
+}
+body.menu-expanded .menu, 
+body.menu-expanded .close-menu{/*tornar o menu visivel após o click*/
+  opacity: 1;
+  visibility: visible;
+}
+body.menu-expanded .menu{/*estilização menu*/
+  top: 0;
+  left: 0;
+  background-color: var(--primary-color);
+  
+  width: 100vw;
+  height: 100vh;
+
+  padding-top: var(--nav-height);
+
+  transition: transform 300ms;
+  transform: translateY(0%);
+}
+.menu ul:nth-child(1) li a {/*estilização links*/
+  display: flex;
+  flex-direction: column;
+  gap: 4.8rem;
+  margin-top: 6rem;
+  
+  font-weight: 700;
+  font-size: 2.4rem;
+  line-height: 3.1rem;
+  color: var(--button-color);
+  text-decoration: none;
+}
+.menu .button{ /*estilização botão*/
+  background-color: var(--button-color);
+  border-radius: 4rem;
+
+  font-weight: 700;
+  font-size: 1.8rem;
+  line-height: 2.3rem;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  color: var(--primary-color);
+
+  display: inline-block;
+  padding: 1.6rem 3.2rem;
+
+  margin-top: 4.8rem;
+  margin-bottom: 8rem;
+}
+
+body.menu-expanded .logo,
+body.menu-expanded nav button{
+  position: relative;
+  z-index: 10;
+}
+body.menu-expanded .logo path{ /*coloração do menu de navegação "DoctorCare"*/
+  fill: white;
+}
+body.menu-expanded button path{/*coloração do menu de navegação "X"*/
+  stroke: white;
+}
+/*===início===*/
+#inicio {
+  padding-block: 0;
+  padding-top: calc(4.1rem + var(--nav-height));  /* calcular margin de acordo com o menu de navegação*/
+}
+
+#inicio ::before{/*insere o background atrás dos elementos*/
+  content: "";
+  width: 100%;
+  height: calc(80% + var(--nav-height)); /*Determina a altura do background, no caso cortando no meio o conteúdo da Box */
+  background-color: var(--brand-light);
+  display: block;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;/*Determina se vai sobrepor o conteudo ou ficar atrás do conteúdo */
+}
+#inicio p { /* estilização do paragrafo*/ 
+  color: var(--paragraph);
+  line-height: 150%;
+  margin-bottom: 3.2rem;
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
+#inicio img { /*estilização da imagem*/
+  width: 26.4rem;
+  display: block; 
+  margin-inline: auto;
+  object-position: 0 2rem; /*posicionar objetos*/
+}
+
+#inicio .box-model { /*div mae/caixa*/
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 6rem;
+
+  background-color: var(--box-model);
+
+
+  border-radius: 0.6rem;
+  border: 0.1rem solid var(--border-box);
+
+  width: 100%;
+  margin-inline: auto;
+  padding-block: 4rem; /*substitui o padding-right/padding-bottom*/
+}
+#inicio .boxes h3{ /*div filha h3*/
+  color: var(--secundary-color);
+  font-weight: 700;
+  font-size: 4.8rem;
+  line-height: 130%;
+  margin-bottom: 0.4rem;
+}
+#inicio .boxes p{ /*div filha p*/
+  font-size: 1.6rem;
+  color: var(--primary-color);
+  line-height: 150%;
+  margin: 0;
+}
+/*===Services======*/
+
+#services h4{
+  font-weight: 700;
+  font-size: 1.4rem;
+  line-height: 150%;
+  /* identical to box height, or 21px */
+  text-transform: uppercase;
+  letter-spacing: 0.08rem;
+  color: var(--primary-color);
+  margin-bottom: 1.6rem;
+
+}
+#services header h2{
+  margin-bottom: 6rem;
+}
+#services .card{
+  padding: 2.4rem;
+  text-align: left;
+
+  background-color: var(--button-color);
+  border: 0.1rem solid var(--border-box);
+  border-radius: 0.6rem;
+  
+}
+#services .card h3{
+  padding-block: 1.6rem;
+}
+#services .cards{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 3.2rem;
+}
+
+/*===About======*/
+
+#about{
+  text-align: left;
+  background-color: var(--box-model);
+}
+#about  header h2{
+  margin-bottom: 6rem;
+} 
+#about .content p{
+ margin-top: 2.4rem;
+ margin-bottom: 6rem;
+}
+/*====Contact======*/
+#contact{
+  text-align: left;
+}
+#contact header{
+  margin-bottom: 3.2rem;
+  
+}
+#contact ul{
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  margin-bottom: 3.2rem;
+
+}
+#contact ul li{
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.content ul li path:nth-child().stroke{
+  fill: var(--primary-color);
+}
+/*====Footer====*/
+footer{
+  background-color: var(--primary-color);
+
+  display: flex;
+  text-align: left;
+
+  padding-block: 6rem; 
+
+}
+footer .logo svg {
+  width: 23.6rem;
+  height: 3.1rem;
+}
+footer .logo path{
+  fill: var(--button-color);
+}
+footer p{
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 2.1rem;
+  margin-top: 2.4rem;
+  color: var(--box-model);
+  line-height: 2;
+}
+footer .social-medias{
+  justify-content: flex-start;
+  margin-top: 3.2rem;
+}
+/*====Back to top====*/
+#backToTopButton{
+  position: fixed;
+  bottom: 1rem;
+  right: 2.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: scaleY(0%);
+  transition: 250ms;
+}
+#backToTopButton.show{
+  opacity: 1;
+  visibility: visible;
+  transform: scaleY(100%);
+}
+
+/*=========Responsive==============*/
+
+@media (min-width:102.4rem) {
+  /*==== Geral ================*/
+  body{
+    overflow: auto;
+  }
+  .wrapper{
+  width: min(112rem, 100%);
+  display: grid;
+  }
+  Section{
+    padding-block: 16rem;
+  }
+  section header h2{
+    font-size: 4rem;
+    line-height: 5.2rem;
+  }
+  .colb{
+    grid-area: B;
+  }
+  .cola{
+    grid-area: A;
+  }
+  #contact .button,
+  #inicio .button{
+    margin: 0;
+  }
+  /*==== Navigation ================*/
+
+ /*Reset */
+nav#navigation .wrapper * {
+  margin: 0;
+  padding: 0;
+  display: initial;
+  visibility: initial;
+  opacity: initial;
+  flex-direction: initial;
+  position: initial;
+  font-size: initial;
+  transform: initial;
+  color: initial;
+  background-color: initial;
+  font-weight: initial;
+  filter: initial;
+}
+nav#navigation .close-menu,
+nav#navigation .open-menu,
+nav#navigation .social-medias{
+  display: none;
+
+}
+nav#navigation .menu{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 65%
+}
+nav#navigation .menu ul:nth-child(1){
+  display: flex;
+  gap:3.2rem;
+}
+nav#navigation .menu ul li a{
+  color: var(--primary-color);
+  opacity: 0.7;
+}
+nav#navigation .menu a.button{
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.0rem 2.4rem;
+
+  color: var(--primary-color);
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+  text-transform: uppercase;
+  /* Primary Colors/brand-green */
+  outline: none;
+  border: 1px solid var(--primary-color);
+  border-radius: 4rem;
+  transition: background 200ms;
+}
+nav#navigation .menu a.button:hover{
+  background-color: var(--primary-color);
+  color: var(--button-color);
+  outline: none;
+  border: none;
+}
+nav#navigation.scroll .menu ul li a{
+  color: var(--brand-light);
+  opacity: 0.6;
+  transition: opacity .2s;
+  
+}
+nav#navigation.scroll .menu li a.active,
+nav#navigation.scroll .menu ul li a:hover{
+  color: var(--button-color);
+  opacity: 1;
+
+}
+nav#navigation.scroll .menu a.button{
+  color: var(--button-color);
+  border:1px solid white ;
+}
+nav#navigation .menu li a{
+  transition: opacity .2rem;
+}
+
+nav#navigation .menu li a:hover{
+  opacity: 1;
+  font-weight: 700;
+}
+
+nav#navigation .menu li a::after{
+  content:'';
+  width: 0%;
+  height: 2px;
+  background-color: var(--primary-color);
+  position: relative;
+  bottom: -2rem;
+  left: -0.5rem;
+  display: block;
+  transition: width 0.2s;
+}
+nav#navigation.scroll .menu li a::after{
+  content: '';
+  opacity: 1;
+  color: var(--button-color);
+  background-color:var(--button-color)
+}
+nav#navigation.scroll .menu li a.active
+nav#navigation.scroll .menu li a:hover::after{
+  width: 100%;
+  padding-inline: 0.8rem;
+}
+nav#navigation .menu li a.active::after,
+nav#navigation .menu li a:hover::after{
+  width: 100%;
+  padding-inline: 0.8rem;
+}
+
+
+nav#navigation.scroll .menu a.button.active,
+nav#navigation.scroll .menu a.button:hover{
+  background-color: var(--primary-color);
+  color:var(--button-color);
+  filter: brightness(1.3);
+  border: 1px solid white;
+  outline: none;
+}
+
+/*====== Inicio ======*/
+#inicio::before {
+  height: calc(96% - var(--nav-height));
+}
+#incio{
+  padding-top: var(--nav-height);
+}
+#inicio .wrapper{
+  grid-template-columns: 60.5rem 1fr;
+  grid-template-areas: 
+  'A B'
+  'C C';
+}
+#inicio h1{
+  font-size: 5.2rem;
+}
+#inicio h4{
+  font-weight: 700;
+  font-size: 1.4rem;
+  line-height: 150%;
+}
+#inicio .contetn p{
+  font-weight: 400;
+  font-size: 1.8rem;
+  line-height: 150%;
+}
+#inicio .cola {
+  text-align: left;
+  align-self: center;
+}
+#inicio img{
+  width: 42rem;
+}
+#inicio .box-model{
+  grid-area: C;
+  flex-direction: row;
+  padding: 6rem;
+  gap: 0;
+}
+#inicio .box-model .boxes + .boxes{
+  border-left: 1px solid var(--primary-color);
+}
+#inicio .box-model .boxes{
+  flex: 1;
+}
+/*====== Services ======*/
+#services h2{
+  width: 47rem;
+  margin-inline: auto;
+}
+#services .cards {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+#services .card{
+  width: 30%;
+  flex-grow: 1;
+}
+/*======About======*/
+#about .wrapper{
+  grid-template-columns: 48rem 1fr;
+  grid-template-areas: 'B A';
+  gap: 6.7rem;
+}
+#about .cola{
+  align-self: center;
+}
+#about .cola .content p{
+  margin-bottom: 0;
+}
+#about .cola header h2{
+  margin-bottom: 2.4rem;
+}
+#about .cola header h4{
+  margin-bottom: 1rem;
+}
+/*======contact====*/
+
+#contact .wrapper {
+  grid-template-columns: 1fr 57.5rem;
+  grid-template-areas: 'A B';
+}
+#contact h2{
+  width: 40.4rem
+
+}
+/*====== Footer =======*/
+footer{
+  padding-block: 8rem;
+}
+footer .wrapper{
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: 'A B';
+}
+footer p{
+  margin-bottom: 0;
+}
+footer .cola{
+  align-self: center;
+}
+footer .colb{
+  align-self: center;
+  justify-self: end;
+}
+}
+
+
+
+
+
